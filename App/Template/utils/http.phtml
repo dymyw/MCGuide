@@ -1,0 +1,43 @@
+<?php /* @var $this \App\Hint\HelperManager */ ?>
+<h1><?php echo $title?></h1>
+<p>Http 工具提供了一些头部信息的操作函数</p>
+
+<h2>载入 Http 工具</h2>
+<p>通过 <a href="<?php echo $this->url('core/autoloader')?>">自动加载类</a> 载入 Http 工具：</p>
+<code>use Core\Utils\Http;</code>
+
+<h2>headerStatus($status, $replace = true)</h2>
+<p>设置 http 头部状态信息：</p>
+<code>Http::headerStatus(404);</code>
+
+<h2>isHttps()</h2>
+<p>判断是不是 https：</p>
+<code>Http::isHttps()</code>
+
+<h2>getIp()</h2>
+<p>获取用户IP地址：</p>
+<code>echo Http::getIp();</code>
+
+<h2>redirect($url, $status = 302)</h2>
+<p>页面跳转：</p>
+<code>Http::redirect('/');</code>
+
+<h2>cache($lifeTime)</h2>
+<p>浏览器缓存，单位秒：</p>
+<code>Http::cache(3600);</code>
+
+<h2>isAjax()</h2>
+<p>判断是不是 ajax 请求：</p>
+<code>Http::isAjax()</code>
+
+<h2>isPost()</h2>
+<p>判断是不是 post 请求：</p>
+<code>Http::isPost()</code>
+
+<h2>mimeType($type, $charset = null)</h2>
+<p>定义文件的类型和编码：</p>
+<code>Http::mimeType('html', 'utf-8');</code>
+
+<h2>disposition($filename)</h2>
+<p>设置文件下载：</p>
+<code>Http::disposition('x.csv');</code>

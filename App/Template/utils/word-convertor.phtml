@@ -1,0 +1,28 @@
+<?php /* @var $this \App\Hint\HelperManager */ ?>
+<h1><?php echo $title?></h1>
+<p>单词转换器</p>
+
+<h2>载入单词转换器</h2>
+<p>通过 <a href="<?php echo $this->url('core/autoloader')?>">自动加载类</a> 载入单词转换器：</p>
+<code>use Core\Utils\WordConvertor;</code>
+
+<h2>separatorToCamelCase($str, $separator = ['-', '_'], $lowerFirst = false)</h2>
+<p>驼峰命名法：</p>
+<code>
+    echo WordConvertor::dashToCamelCase('word-convertor'); // <var>WordConvertor</var><br />
+    echo WordConvertor::dashToCamelCase('word-convertor', true); // <var><samp>w</samp>ordConvertor</var><br />
+    <br />
+    echo WordConvertor::underscoreToCamelCase('word_convertor'); // <var>WordConvertor</var><br />
+    echo WordConvertor::underscoreToCamelCase('word_convertor', true); // <var><samp>w</samp>ordConvertor</var><br />
+    <br />
+    echo WordConvertor::separatorToCamelCase('word_convertor~action', ['_', '-', '<var>~</var>']); // <var>WordConvertorAction</var><br />
+</code>
+
+<h2>camelCaseToSeparator($str, $separator = '-', $toLower = true)</h2>
+<code>
+    echo WordConvertor::camelCaseToDash('WordConvertor'); // <var>word-convertor</var><br />
+    <br />
+    echo WordConvertor::camelCaseToUnderscore('WordConvertor'); // <var>word_convertor</var><br />
+    <br />
+    echo WordConvertor::camelCaseToSeparator('WordConvertorAction', '<var>~</var>'); // <var>word~convertor~action</var>
+</code>

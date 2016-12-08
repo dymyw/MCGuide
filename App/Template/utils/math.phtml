@@ -1,0 +1,22 @@
+<?php /* @var $this \App\Hint\HelperManager */ ?>
+<h1><?php echo $title?></h1>
+<p>数字工具可以协助您处理数字资料</p>
+
+<h2>载入数字工具</h2>
+<p>通过 <a href="<?php echo $this->url('core/autoloader')?>">自动加载类</a> 载入数字工具：</p>
+<code>use Core\Utils\Math;</code>
+
+<h2>byteFormat($num, $precision = 1)</h2>
+<p>将文件大小以字节(bytes)格式化，并添加适合的缩写单位。例如：</p>
+<code>
+    echo Math::byteFormat(1000); // 1,000 Bytes<br />
+    echo Math::byteFormat(1000000); // 976.6 KB<br />
+    echo Math::byteFormat(1000000000); // 953.7 MB<br />
+    echo Math::byteFormat(1000000000000); // 931.3 GB<br />
+    echo Math::byteFormat(1000000000000000); // 909.5 TB
+</code>
+
+<p>第二个可选的参数允许你设置结果的精确度：</p>
+<code>
+    echo Math::byteFormat(1000000, <var>2</var>); // 976.56 KB<br />
+</code>

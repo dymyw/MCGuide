@@ -1,0 +1,15 @@
+<?php /* @var $this \App\Hint\HelperManager */ ?>
+<h1><?php echo $title?></h1>
+<p>URL 工具文件包含一些在处理 URL 中很有用的函数</p>
+
+<h2>载入 URL 工具</h2>
+<p>通过 <a href="<?php echo $this->url('core/autoloader')?>">自动加载类</a> 载入 URL 工具：</p>
+<code>use Core\Utils\Url;</code>
+
+<h2>buildUrl($query = null, $url = null)</h2>
+<p>添加 query 组建新的 url：</p>
+<code>
+    echo Url::buildUrl('id=2&type=test', '/example.php?id=1&name=test');<br />
+    echo Url::buildUrl(['id' => 2, 'type' => 'test'], '/example.php?id=1&name=test');<br />
+</code>
+<p>返回结果：<samp>/example.php?id=2&name=test&type=test</samp></p>

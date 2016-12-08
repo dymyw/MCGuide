@@ -1,0 +1,24 @@
+<?php /* @var $this \App\Hint\HelperManager */ ?>
+<h1><?php echo $title?></h1>
+<p>默认情况下，MC 中的 URL 是这样子的：</p>
+<code>example.com/index.php/<var>class</var>/<var>method</var></code>
+<p>当然也可以设定你自己的 <a href="<?php echo $this->url('general/router')?>">URI 路由</a> 规则</p>
+
+<h2>删除 index.php 文件</h2>
+<p>默认情况下，<dfn>index.php</dfn> 文件将被包含在你的 URL 中：</p>
+<code>example.com/<var>index.php</var>/class/method</code>
+<p>你可以很容易的通过 <samp>.htaccess</samp> 文件来设置一些简单的规则删除它。下面是一个例子，使用 "negative" 方法将非指定内容进行重定向：</p>
+<p>
+    <code>
+        RewriteEngine on<br />
+        <br />
+        RewriteCond %{REQUEST_FILENAME} !-f<br />
+        RewriteCond %{REQUEST_FILENAME} !-d<br />
+        <br />
+        RewriteRule ^(.*)$ /index.php/$1 [L]
+    </code>
+</p>
+<p>如果不删除 <dfn>index.php</dfn>，需要修改 <samp>App/Class/ServiceLocator/Invokable.php</samp> 中的路由解析方式，去掉注释：</p>
+<code>
+$router-&gt;setRouteMode(Router::ROUTE_MODE_PATHINFO);
+</code>

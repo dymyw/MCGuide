@@ -1,0 +1,68 @@
+<?php /* @var $this \App\Hint\HelperManager */ ?>
+<h1><?php echo $title?></h1>
+<table cellspacing="10" cellpadding="0" width="100%" border="0">
+    <tbody>
+        <tr>
+            <td valign="top" width="25%">
+                <h3>基本信息</h3>
+                <ul>
+                    <li><a href="<?php echo $this->url('basic/download')?>">下载 MC</a></li>
+                </ul>
+<!--            </td>
+            <td valign="top" width="25%">-->
+                <h3>常规主题</h3>
+                <ul>
+                    <li><a href="<?php echo $this->url('general/url')?>">MC URL</a></li>
+                    <li><a href="<?php echo $this->url('general/controller')?>">控制器</a></li>
+                    <li><a href="<?php echo $this->url('general/view')?>">视图</a></li>
+                    <li><a href="<?php echo $this->url('general/model')?>">模型</a></li>
+                    <li><a href="<?php echo $this->url('general/plugin')?>">MC 插件</a></li>
+                    <li><a href="<?php echo $this->url('general/helper')?>">MC 帮助方法</a></li>
+                    <li><a href="<?php echo $this->url('general/router')?>">URI 路由</a></li>
+                    <li><a href="<?php echo $this->url('general/cli')?>">以 CLI 方式运行</a></li>
+                    <li><a href="<?php echo $this->url('general/php')?>">PHP 替代语法</a></li>
+                </ul>
+            </td>
+            <td valign="top" width="25%">
+                <h3>插件参考</h3>
+                <ul>
+                    <li><a href="#">Layout 页面布局插件</a></li>
+                    <li><a href="#">View 视图插件</a></li>
+                    <li><a href="#">Param 参数插件</a></li>
+                    <li><a href="#">Func 常用方法插件</a></li>
+                    <li><a href="#">ViewModel 视图模型插件</a></li>
+                </ul>
+<!--            </td>
+            <td valign="top" width="25%">-->
+                <h3>帮助方法参考</h3>
+                <ul>
+                    <li><a href="#">Url 创建链接</a></li>
+                    <li><a href="#">Controller 获取控制器名</a></li>
+                    <li><a href="#">Action 获取方法名</a></li>
+                    <li><a href="#">PageId 获取控制器名和方法名</a></li>
+                    <li><a href="#">Escape 过滤字符串</a></li>
+                    <li><a href="#">Date 格式化时间</a></li>
+                    <li><a href="#">SelfUrl 拼接URL</a></li>
+                </ul>
+            </td>
+            <td valign="top" width="25%">
+                <h3>系统核心参考</h3>
+                <ul>
+                    <li><a href="#">AutoLoader 自动加载类</a></li>
+                    <li><a href="#">ServiceLocator 服务定位器</a></li>
+
+                    <li><a href="#">Pdo 数据对象操作类</a></li>
+                    <li><a href="#">Redis 缓存</a></li>
+                </ul>
+                <h3>系统工具参考</h3>
+                <ul>
+                    <li><a href="#">Http</a></li>
+                    <li><a href="#">WordConvertor</a></li>
+                    <li><a href="#">String</a></li>
+                    <li><a href="#">Url</a></li>
+                    <li><a href="#">Math</a></li>
+                </ul>
+            </td>
+        </tr>
+    </tbody>
+</table>

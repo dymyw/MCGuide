@@ -1,0 +1,62 @@
+<?php /* @var $this \App\Hint\HelperManager */ ?>
+<h1><?php echo $title?></h1>
+<p>模型对于那些想用传统 MVC 方式的人来说是 <dfn>可选</dfn> 的</p>
+<ul>
+    <li><a href="#what">什么是模型?</a></li>
+    <li><a href="#create">创建模型</a></li>
+    <li><a href="#use">载入模型</a></li>
+    <li><a href="#conn">连接数据库</a></li>
+</ul>
+
+<a name="what"></a>
+<h2>什么是模型?</h2>
+<p>模型是专门用来和数据库打交道的 PHP 类。例如，假设你想用 MC 来管理 Product，你可以写一个模型类，里面包含插入、更新和删除等操作 Product 数据的方法</p>
+
+<a name="create"></a>
+<h2>创建模型</h2>
+<p>模型类文件存放在 <dfn>App/Class/Model/</dfn> 文件夹中</p>
+<p>最基本的模型类就像这样：</p>
+<code>
+&lt;?php<br />
+<br />
+namespace&nbsp;App\Model;<br />
+<br />
+use&nbsp;Core\Model\AbstractModel;<br />
+<br />
+class&nbsp;<var>ProductModel</var>&nbsp;extends&nbsp;AbstractModel<br />
+{<br />
+}
+</code>
+<p class="important">注意：类名和文件同名，必须以大写字母开头，采用驼峰命名，后面紧跟 Model</p>
+
+<a name="use"></a>
+<h2>使用模型</h2>
+<p>载入模型类：</p>
+<code>$this-&gt;models-&gt;<var>product</var></code>
+<p>模型一旦被载入，就可以像这样使用模型中的方法了：</p>
+<code>$this-&gt;models-&gt;product-&gt;<var>method()</var>;</code>
+<p>为了能使编辑器快速提示，一般在 <dfn>App/Class/Hint/ModelManager.php</dfn> 中添加 <samp>@property</samp>：</p>
+<code>
+&lt;?php<br />
+<br />
+namespace&nbsp;App\Hint;<br />
+<br />
+/**<br />
+&nbsp;*&nbsp;<var>@property&nbsp;\App\Model\ProductModel&nbsp;$product</var><br />
+&nbsp;*/<br />
+class&nbsp;ModelManager&nbsp;extends&nbsp;\Core\Model\ModelManager<br />
+{<br />
+}
+</code>
+
+<a name="conn"></a>
+<h2>连接数据库</h2>
+<p>在使用数据模型之前，首先需要手动配置数据库信息</p>
+<p>一般，我们都在私有配置文件 <dfn>App/Config/Config.private.php</dfn> 里面进行配置：</p>
+<code>
+!defined('DB_HOST')&nbsp;&amp;&amp;&nbsp;define('DB_HOST',&nbsp;'localhost');<br />
+!defined('DB_PORT')&nbsp;&amp;&amp;&nbsp;define('DB_PORT',&nbsp;3306);<br />
+!defined('DB_USERNAME')&nbsp;&amp;&amp;&nbsp;define('DB_USERNAME',&nbsp;'root');<br />
+!defined('DB_PASSWORD')&nbsp;&amp;&amp;&nbsp;define('DB_PASSWORD',&nbsp;'***');<br />
+!defined('DB_DATABASE')&nbsp;&amp;&amp;&nbsp;define('DB_DATABASE',&nbsp;'test');
+</code>

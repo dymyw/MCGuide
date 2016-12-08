@@ -1,0 +1,63 @@
+<?php /* @var $this \App\Hint\HelperManager */ ?>
+<h1><?php echo $title?></h1>
+<p>简而言之，一个视图就是一个网页，或是网页的部分，如头部，底部，侧边栏等等。事实上，如果你需要这种层次类型，视图可以很灵活的嵌入到其他视图中</p>
+<p>视图从不直接调用，必须被一个 <a href="<?php echo $this->url('general/controller')?>">控制器</a> 来调用。记住，在一个 MVC 框架中，控制器扮演着交通警察的角色，那么，他有责任去取回某一特定的视图。如果你还没有阅读过控制器页面的话，你应该事先阅读 <a href="<?php echo $this->url('general/controller')?>">控制器</a> 页面</p>
+
+<h2>创建视图</h2>
+<p>下面使用你在 <a href="<?php echo $this->url('general/controller')?>">控制器</a> 页面已经创建过的示例控制器 <dfn>MyTestController</dfn>，让我们来给 <dfn>viewAction</dfn> 方法添加个视图，代码如下：</p>
+<code>
+public&nbsp;function&nbsp;viewAction()<br />
+{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;layout(false);<br />
+}
+</code>
+<p>使用你的文本编辑器，创建一个名为 <dfn>view.phtml</dfn> 的文件，写入以下代码：</p>
+<code>
+&lt;html&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;head&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;meta&nbsp;http-equiv=&quot;Content-Type&quot;&nbsp;content=&quot;text/html;&nbsp;charset=utf-8&quot;&nbsp;/&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;My&nbsp;first&nbsp;controller&lt;/title&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/head&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;body&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;Welcome&nbsp;to&nbsp;MC&nbsp;view!&lt;/h1&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/body&gt;<br />
+&lt;/html&gt;
+</code>
+<p>然后保存文件到 <dfn>App/Template/my-test/</dfn> 文件夹中</p>
+<p>现在在地址栏中输入下面的 URL，你会发现视图被自动加载进来了：</p>
+<code>example.com/index.php/<var>my-test</var>/<var>view</var></code>
+
+<h2>给视图添加动态数据</h2>
+<p>数据通过控制器以返回一个 <strong>数组</strong> 的形式传入视图。就像这样：</p>
+<code>
+public&nbsp;function&nbsp;viewAction()<br />
+{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;layout(false);<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<var>return&nbsp;[<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'title'&nbsp;=&gt;&nbsp;'My&nbsp;title',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'msg'&nbsp;=&gt;&nbsp;'My&nbsp;message',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'list'&nbsp;=&gt;&nbsp;['Mark',&nbsp;'Jack',&nbsp;'Harry'],<br />
+&nbsp;&nbsp;&nbsp;&nbsp;];</var><br />
+}
+</code>
+<p>现在，打开你的视图文件，将其中的文本替换成与数组对应的变量：</p>
+<code>
+&lt;html&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;head&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;meta&nbsp;http-equiv=&quot;Content-Type&quot;&nbsp;content=&quot;text/html;&nbsp;charset=utf-8&quot;&nbsp;/&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;<var>&lt;?php&nbsp;echo&nbsp;$title?&gt;</var>&lt;/title&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/head&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;body&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;<var>&lt;?php&nbsp;echo&nbsp;$msg?&gt;</var>&lt;/h1&gt;<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;ul&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<var>&lt;?php&nbsp;foreach&nbsp;($list&nbsp;as&nbsp;$item)&nbsp;:?&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;&lt;?=$item?&gt;&lt;/li&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;?php&nbsp;endforeach;?&gt;</var><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/ul&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/body&gt;<br />
+&lt;/html&gt;
+</code>
+<p>然后使用你先前用过的 URL 载入页面，你将看到变量已经被替换</p>
+<p>上面的例子，我们使用了 <a href="<?php echo $this->url('general/php')?>">PHP 替代语法</a></p>

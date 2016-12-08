@@ -1,0 +1,39 @@
+<?php /* @var $this \App\Hint\HelperManager */ ?>
+<h1><?php echo $title?></h1>
+<p>所有的帮助方法文件存放在自动加载命名空间下的 <dfn>/View/Helper/</dfn> 文件夹中，类似于 <a href="<?php echo $this->url('general/plugin')?>">插件</a>，创建帮助方法也雷同</p>
+
+<h2>使用帮助方法</h2>
+<p>在 <a href="<?php echo $this->url('general/view')?>">视图</a> 文件中，帮助方法是可以直接使用的</p>
+<blockquote>
+    <p>载入帮助方法类：</p>
+    <code>$this-><var>param</var></code>
+    <p>调用帮助方法定义的 __invoke 方法：</p>
+    <code>$this-><var>param($name, $default)</var>;</code>
+    <p>调用帮助方法中的 method：</p>
+    <code>$this->param-><var>has($key, $item)</var>;</code>
+</blockquote>
+<p>在 <a href="<?php echo $this->url('general/controller')?>">控制器</a> 中，我们也可以通过插件管理器来对插件进行使用，只是多了一个 <samp>helpers</samp> ：</p>
+<blockquote>
+    <code>$this-><var>helpers</var>->param</code>
+</blockquote>
+
+<h2>编辑器快速提示</h2>
+<p>我们一般会在 <dfn>App/Class/Hint/HelperManager.php</dfn> 中添加 <samp>@property</samp>、<samp>@method</samp>：</p>
+<code>
+&lt;?php<br />
+<br />
+namespace&nbsp;App\Hint;<br />
+<br />
+/**<br />
+&nbsp;*&nbsp;@method&nbsp;\App\View\Helper\Css&nbsp;css($file,&nbsp;$checkExists&nbsp;=&nbsp;false)<br />
+&nbsp;*&nbsp;@method&nbsp;\App\View\Helper\Js&nbsp;js($file,&nbsp;$checkExists&nbsp;=&nbsp;false)<br />
+&nbsp;*&nbsp;@method&nbsp;\App\View\Helper\Image&nbsp;image($file)<br />
+&nbsp;*/<br />
+class&nbsp;HelperManager&nbsp;extends&nbsp;\Core\View\HelperManager<br />
+{<br />
+}
+</code>
+<p><a href="<?php echo $this->url('general/view')?>">视图</a> 文件中添加如下代码来实现快速提示：</p>
+<code>
+&lt;?php&nbsp;/*&nbsp;@var&nbsp;$this&nbsp;\App\Hint\HelperManager&nbsp;*/&nbsp;?&gt;
+</code>

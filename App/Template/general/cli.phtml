@@ -1,0 +1,54 @@
+<?php /* @var $this \App\Hint\HelperManager */ ?>
+<h1><?php echo $title?></h1>
+<p>除了可以在浏览器中通过 URL 调用一个 <a href="<?php echo $this->url('general/controller')?>">控制器</a> 外，也可以通过命令行接口 CLI 调用</p>
+<ul>
+    <li><a href="#what">什么是 CLI?</a></li>
+    <li><a href="#why">为什么使用这种方式?</a></li>
+    <li><a href="#how">它如何工作?</a></li>
+</ul>
+
+<a name="what"></a>
+<h2>什么是 CLI?</h2>
+<p><dfn>命令行接口是一种基于文本的和计算机交互的方式。</dfn> 如果想查看更详细说明，请看 <a href="http://en.wikipedia.org/wiki/Command-line_interface">Wikipedia article</a></p>
+
+<a name="why"></a>
+<h2>为什么使用这种方式?</h2>
+<p>虽然不是必须的，但在某些情况下我们会用到命令行</p>
+<ul>
+    <li>使用 cron 定时运行任务</li>
+    <li>让交互式任务可以做设置权限、清空缓存、执行备份等操作</li>
+    <li>与其他语言进行集成。比如一个 C++ 脚本可以调用一条指令来运行你模型中的代码！</li>
+</ul>
+
+<a name="how"></a>
+<h2>让我们试一试：Hello World!</h2>
+<p>首先创建一个简单的控制器，命名为 <dfn>ToolController.php</dfn>，并且输入如下代码：</p>
+<code>
+&lt;?php<br />
+<br />
+namespace&nbsp;App\Controller;<br />
+<br />
+class&nbsp;ToolController&nbsp;extends&nbsp;AbstractActionController<br />
+{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;function&nbsp;msgAction()<br />
+&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$to&nbsp;=&nbsp;$this-&gt;param('to',&nbsp;'World');<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;&quot;Hello&nbsp;{$to}!&quot;&nbsp;.&nbsp;PHP_EOL;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+}
+</code>
+<p>然后将这个文件保存到你的 <dfn>App/Class/Controller/</dfn> 文件夹中</p>
+
+<p>现在正常情况下你可以通过你网站的 URL 来访问它：</p>
+<code>example.com/index.php/<var>tool</var>/<var>msg</var></code>
+<p>除此之外，我们也可以在 Mac/Linux 中打开终端，或者在 Windows 下进入 "运行" 输入 "cmd"，并进入我们的 MC 项目的 <dfn>Www</dfn> 目录</p>
+<blockquote>
+    $ cd /path/to/project/Www;<br />
+    $ php index.php tool msg
+</blockquote>
+<p>如果你跟着一步步下来，你应该会看到 <samp>Hello World!</samp></p>
+
+<blockquote>
+    $ php index.php tool msg --to="Mark Ma"
+</blockquote>
+<p>这里我们像使用 URL 参数一样给它传递了一个参数。"Mark Ma" 作为一个参数被传递了，并且输出也变成：<samp>Hello Mark Ma!</samp></p>

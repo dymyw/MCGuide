@@ -1,0 +1,26 @@
+<?php /* @var $this \App\Hint\HelperManager */ ?>
+<h1><?php echo $title?></h1>
+<p>如果你不使用模板引擎，则你可以在视图文件中使用原始 PHP 代码。如果你还不熟悉这个语法，下面你将学会如何从代码中消灭大括号</p>
+
+<h2>替代控制结构</h2>
+<p>控制结构，像 <dfn>if</dfn>，<dfn>for</dfn>，<dfn>foreach</dfn> 和 <dfn>while</dfn> 等。这里是一个用 foreach 的例子：</p>
+<code>
+&lt;ul&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;?php&nbsp;foreach&nbsp;($list&nbsp;as&nbsp;$item)&nbsp;:?&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;&lt;?=$item?&gt;&lt;/li&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;?php&nbsp;endforeach;?&gt;<br />
+&lt;/ul&gt;
+</code>
+<p>注意，这里没有大括号。相反，结束大括号被替换成了 <dfn>endforeach</dfn>。上面列出的每一个控制结构也有相似的关闭语法：<dfn>endif</dfn>，<dfn>endfor</dfn>，<dfn>endforeach</dfn> 和 <dfn>endwhile</dfn></p>
+<p>并且在每个结构以后注意不要使用分号(除了最后一个)，用冒号。这是很重要的！</p>
+
+<p>这有另一个例子，使用 if/elseif/else。注意冒号：</p>
+<code>
+&lt;?php&nbsp;if&nbsp;($name&nbsp;==&nbsp;'Mark')&nbsp;:?&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt;Mark&nbsp;Ma&lt;/h3&gt;<br />
+&lt;?php&nbsp;elseif&nbsp;($name&nbsp;==&nbsp;'Jack')&nbsp;:?&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt;Jack&nbsp;Ye&lt;/h3&gt;<br />
+&lt;?php&nbsp;else&nbsp;:?&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt;Unknown&lt;/h3&gt;<br />
+&lt;?php&nbsp;endif;?&gt;
+</code>

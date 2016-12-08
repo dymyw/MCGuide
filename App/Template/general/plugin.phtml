@@ -1,0 +1,182 @@
+<?php /* @var $this \App\Hint\HelperManager */ ?>
+<h1><?php echo $title?></h1>
+<p>所有的插件文件存放在自动加载命名空间下的 <dfn>/Controller/Plugin/</dfn> 文件夹中，参考 <dfn>Www/init.inc.php</dfn> ：</p>
+<code>
+include_once&nbsp;CORE_DIR&nbsp;.&nbsp;'Loader'&nbsp;.&nbsp;DS&nbsp;.&nbsp;'AutoLoader.php';<br />
+AutoLoader::setNamespaces([<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<var>'Core'&nbsp;&nbsp;=&gt;&nbsp;CORE_DIR,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'App'&nbsp;&nbsp;&nbsp;=&gt;&nbsp;APP_DIR&nbsp;.&nbsp;'Class'&nbsp;.&nbsp;DS,</var><br />
+]);<br />
+AutoLoader::register();
+</code>
+<ul>
+    <li>MC 系统插件存放在 <dfn>CORE_DIR/Controller/Plugin/</dfn> 文件夹中</li>
+    <li>MC 应用插件存放在 <dfn>App/Class/Controller/Plugin/</dfn> 文件夹中</li>
+</ul>
+<p>当然，你可以新增需要自动加载的命名空间，在这些目录下这样插件就能自动加载了!</p>
+
+<h2>使用插件</h2>
+<p>在 <a href="<?php echo $this->url('general/controller')?>">控制器</a> 中，插件是可以直接使用的</p>
+<blockquote>
+    <p>载入插件类：</p>
+    <code>$this-><var>param</var></code>
+    <p>调用插件定义的 __invoke 方法：</p>
+    <code>$this-><var>param($name, $default)</var>;</code>
+    <p>调用插件中的 method：</p>
+    <code>$this->param-><var>has($key, $item)</var>;</code>
+</blockquote>
+<p>在 <a href="<?php echo $this->url('general/view')?>">视图</a> 文件中，插件是需要被注册才能使用的，一般我们都在 <dfn>AbstractActionController</dfn> 控制器中进行：</p>
+<blockquote>
+    <code>
+    //&nbsp;register&nbsp;view&nbsp;helpers<br />
+    $this-&gt;helpers-&gt;register('param',&nbsp;function()&nbsp;{<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;$this-&gt;plugin('param');<br />
+    });
+    </code>
+    <p>注册之后，在视图文件中就可以像在控制器中一样使用了</p>
+</blockquote>
+
+<h2>创建插件</h2>
+<p>应用程序千奇八怪，各种需求层出不穷。在当前这个话题中，我们将讨论如何在 <dfn>App/Class/Controller/Plugin/</dfn> 文件夹中建立你自己的插件</p>
+
+<br />
+<h3>命名约定</h3>
+<ul>
+    <li>文件名首字母大写，驼峰命名，例如：<samp>MyTest.php</samp></li>
+    <li>类声明首字母大写，驼峰命名，例如：<kbd>class MyTest</kbd></li>
+    <li>类的名字和文件名应相同</li>
+</ul>
+
+<br />
+<h3>插件的初始化</h3>
+<p>如果需要对插件进行重新初始化，实现 <dfn>Core\ServiceLocator\InitializerInterface</dfn> 接口：</p>
+<code>
+&lt;?php<br />
+<br />
+namespace&nbsp;App\Controller\Plugin;<br />
+<br />
+use&nbsp;Core\ServiceLocator\InitializerInterface;<br />
+<br />
+class&nbsp;MyTest&nbsp;<var>implements&nbsp;InitializerInterface</var><br />
+{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;$name&nbsp;=&nbsp;'dymyw';<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;init<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<var>public&nbsp;function&nbsp;initialize()</var><br />
+&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;name&nbsp;=&nbsp;'dymyw';<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;'MyTest&nbsp;plugin&nbsp;initialize';<br />
+&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;function&nbsp;setName($name&nbsp;=&nbsp;'mark')<br />
+&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;name&nbsp;=&nbsp;$name;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;$this;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;function&nbsp;getName()<br />
+&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;$this-&gt;name;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+}
+</code>
+<p>试着在 <dfn>MyTestController</dfn> <a href="<?php echo $this->url('general/controller')?>">控制器</a> 中添加并运行下面的代码：</p>
+<code>
+public&nbsp;function&nbsp;pluginInitAction()<br />
+{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;var_dump($this-&gt;myTest-&gt;<var>setName()</var>-&gt;getName());<br />
+&nbsp;&nbsp;&nbsp;&nbsp;var_dump($this-&gt;myTest-&gt;getName());<br />
+}
+</code>
+<p>请求 URL：</p>
+<code>example.com/index.php/<var>my-test/plugin-init</var></code>
+<p>看下结果：</p>
+<blockquote>
+    <small>string</small> <font color='#cc0000'>'mark'</font> <i>(length=4)</i><br />
+    <br />
+    MyTest plugin initialize<br />
+    <br />
+    <small>string</small> <font color='#cc0000'>'dymyw'</font> <i>(length=5)</i>
+</blockquote>
+<ul>
+    <li>第一次调用，设置了 name 的值 <samp>mark</samp></li>
+    <li>第二次调用，插件重新初始化 <samp>initialize()</samp>，name 的重新变成 <samp>dymyw</samp></li>
+</ul>
+
+<br />
+<h3>设置服务定位器 ServiceLocator</h3>
+<p>要在你自定义的插件中调用 MC 的服务资源，需要实现 <dfn>Core\ServiceLocator\ServiceLocatorAwareInterface</dfn> 接口：</p>
+<code>
+&lt;?php<br />
+<br />
+namespace&nbsp;App\Controller\Plugin;<br />
+<br />
+use&nbsp;Core\ServiceLocator\ServiceLocatorAwareInterface;<br />
+use&nbsp;Core\ServiceLocator\ServiceLocator;<br />
+<br />
+class&nbsp;MyTest&nbsp;<var>implements&nbsp;ServiceLocatorAwareInterface</var><br />
+{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;/**<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@var&nbsp;ServiceLocator|\App\Hint\ServiceLocator<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/<br />
+&nbsp;&nbsp;&nbsp;&nbsp;protected&nbsp;$locator&nbsp;=&nbsp;null;<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;/**<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Set&nbsp;service&nbsp;locator<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@param&nbsp;ServiceLocator&nbsp;$serviceLocator<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@return&nbsp;MyTest<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<var>public&nbsp;function&nbsp;setServiceLocator(ServiceLocator&nbsp;$serviceLocator)</var><br />
+&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;locator&nbsp;=&nbsp;$serviceLocator;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;$this;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;/**<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Get&nbsp;service&nbsp;locator<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@return&nbsp;ServiceLocator<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<var>public&nbsp;function&nbsp;getServiceLocator()</var><br />
+&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;$this-&gt;locator;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+}
+</code>
+<p>这样插件类中就可以通过 <samp>$this->locator</samp> 直接调用可用的服务了</p>
+
+<br />
+<h3>工厂模式</h3>
+<p>如果想实现工厂模式，需要去实现 <dfn>Core\ServiceLocator\PluginManager\FactoryInterface</dfn> 接口：</p>
+<code>
+&lt;?php<br />
+<br />
+namespace&nbsp;App\Controller\Plugin;<br />
+<br />
+use&nbsp;Core\ServiceLocator\PluginManager\FactoryInterface;<br />
+<br />
+class&nbsp;MyTest&nbsp;<var>implements&nbsp;FactoryInterface</var><br />
+{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<var>public&nbsp;function&nbsp;factory()</var><br />
+&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;$instance;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+}
+</code>
+
+<br />
+<h3>编辑器快速提示</h3>
+<p>我们一般会在 <dfn>App/Class/Controller/AbstractActionController.php</dfn> 中添加 <samp>@property</samp>、<samp>@method</samp>：</p>
+<code>
+&lt;?php<br />
+<br />
+namespace&nbsp;App\Controller;<br />
+<br />
+/**<br />
+&nbsp;*&nbsp;<var>@property&nbsp;Plugin\MyTest&nbsp;$myTest</var><br />
+&nbsp;*/<br />
+abstract&nbsp;class&nbsp;AbstractActionController&nbsp;extends&nbsp;\Core\Controller\AbstractActionController<br />
+{<br />
+}
+</code>

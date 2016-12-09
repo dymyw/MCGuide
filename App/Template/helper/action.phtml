@@ -1,0 +1,7 @@
+<?php /* @var $this \App\Hint\HelperManager */ ?>
+<h1><?php echo $title?></h1>
+<p>获取当前的方法名称，可以在 <a href="<?php echo $this->url('general/view')?>">视图</a> 文件中添加如下代码：</p>
+<code>
+    echo $this->action(); // <var>action</var>
+</code>
+<p>获取的方法名称为 <dfn>中划线 '-' 分割小写字符串</dfn>，如 <var>actionNameAction</var> 的结果为 <samp>action-name</samp></p>

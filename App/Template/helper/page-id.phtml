@@ -1,0 +1,7 @@
+<?php /* @var $this \App\Hint\HelperManager */ ?>
+<h1><?php echo $title?></h1>
+<p>获取当前的控制器和方法名称，可以在 <a href="<?php echo $this->url('general/view')?>">视图</a> 文件中添加如下代码：</p>
+<code>
+    echo $this->pageId(); // <var>helper<kbd>_</kbd>page-id</var>
+</code>
+<p>控制器名称和方法名称之间用 <samp>下划线 '_' 分隔</samp></p>

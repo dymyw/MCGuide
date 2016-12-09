@@ -1,0 +1,14 @@
+<?php /* @var $this \App\Hint\HelperManager */ ?>
+<h1><?php echo $title?></h1>
+<p>格式化时间，可以在 <a href="<?php echo $this->url('general/view')?>">视图</a> 文件中添加如下代码</p>
+
+<h3>时间戳</h3>
+<pre>
+echo $this->date(<var>time()</var>, "Y-m-d H:i:s");
+</pre>
+
+<h3>任何英文文本的日期时间描述</h3>
+<pre>
+echo $this->date("<var>+1 day</var>", "Y-m-d H:i:s");
+echo $this->date("<var>Thu, 11 Sep 2014 06:12:36 GMT</var>", "Y-m-d H:i:s");
+</pre>

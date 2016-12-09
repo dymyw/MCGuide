@@ -3,13 +3,11 @@
 <table cellspacing="10" cellpadding="0" width="100%" border="0">
     <tbody>
         <tr>
-            <td valign="top" width="25%">
+            <td valign="top" width="33%">
                 <h3>基本信息</h3>
                 <ul>
                     <li><a href="<?php echo $this->url('basic/download')?>">下载 MC</a></li>
                 </ul>
-<!--            </td>
-            <td valign="top" width="25%">-->
                 <h3>常规主题</h3>
                 <ul>
                     <li><a href="<?php echo $this->url('general/url')?>">MC URL</a></li>
@@ -23,7 +21,7 @@
                     <li><a href="<?php echo $this->url('general/php')?>">PHP 替代语法</a></li>
                 </ul>
             </td>
-            <td valign="top" width="25%">
+            <td valign="top" width="33%">
                 <h3>插件参考</h3>
                 <ul>
                     <li><a href="#">Layout 页面布局插件</a></li>
@@ -32,25 +30,22 @@
                     <li><a href="#">Func 常用方法插件</a></li>
                     <li><a href="#">ViewModel 视图模型插件</a></li>
                 </ul>
-<!--            </td>
-            <td valign="top" width="25%">-->
                 <h3>帮助方法参考</h3>
                 <ul>
-                    <li><a href="#">Url 创建链接</a></li>
-                    <li><a href="#">Controller 获取控制器名</a></li>
-                    <li><a href="#">Action 获取方法名</a></li>
-                    <li><a href="#">PageId 获取控制器名和方法名</a></li>
-                    <li><a href="#">Escape 过滤字符串</a></li>
-                    <li><a href="#">Date 格式化时间</a></li>
-                    <li><a href="#">SelfUrl 拼接URL</a></li>
+                    <li><a href="<?php echo $this->url('helper/controller')?>">Controller 获取控制器名</a></li>
+                    <li><a href="<?php echo $this->url('helper/action')?>">Action 获取方法名</a></li>
+                    <li><a href="<?php echo $this->url('helper/page-id')?>">PageId 获取控制器名和方法名</a></li>
+                    <li><a href="<?php echo $this->url('helper/self-url')?>">SelfUrl 获取当前链接地址</a></li>
+                    <li><a href="<?php echo $this->url('helper/url')?>">Url 创建链接</a></li>
+                    <li><a href="<?php echo $this->url('helper/escape')?>">Escape 过滤字符串</a></li>
+                    <li><a href="<?php echo $this->url('helper/date')?>">Date 格式化时间</a></li>
                 </ul>
             </td>
-            <td valign="top" width="25%">
+            <td valign="top" width="33%">
                 <h3>系统核心参考</h3>
                 <ul>
                     <li><a href="#">AutoLoader 自动加载类</a></li>
                     <li><a href="#">ServiceLocator 服务定位器</a></li>
-
                     <li><a href="#">Pdo 数据对象操作类</a></li>
                     <li><a href="#">Redis 缓存</a></li>
                 </ul>

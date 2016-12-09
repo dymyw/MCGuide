@@ -1,0 +1,24 @@
+<?php /* @var $this \App\Hint\HelperManager */ ?>
+<h1><?php echo $title?></h1>
+<p>根据 <a href="<?php echo $this->url('general/router')?>">URI 路由</a>规则，传递不同的参数生成格式化的 URL</p>
+
+<h2>url($path = 'default/index', $params = [], $https = false, $forceHost = false)</h2>
+<p>生成格式化的 URL，可以在 <a href="<?php echo $this->url('general/view')?>">视图</a> 文件中添加如下代码：</p>
+<pre>
+echo $this->url('eyeglasses/list');
+// <var>/eyeglasses.html</var>
+
+echo $this->url('eyeglasses/list', [
+    'attrs' => ['fashion'],
+    'gender' => 'women',
+    'width' => 140,
+]);
+// <var>/fashion-women-eyeglasses-width-140.html </var>
+
+echo $this->url('eyeglasses/list', [
+    'attrs' => ['fashion'],
+    'gender' => 'women',
+    'width' => 140,
+], true);
+// <var><samp>https://localhost:8084</samp>/fashion-women-eyeglasses-width-140.html</var>
+</pre>

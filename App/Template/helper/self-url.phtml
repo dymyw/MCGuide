@@ -1,0 +1,17 @@
+<?php /* @var $this \App\Hint\HelperManager */ ?>
+<h1><?php echo $title?></h1>
+<p>获取当前的链接地址，还可以添加参数，转义特殊字符</p>
+
+<h2>selfUrl($query = null, $escape = true)</h2>
+<p>可以在 <a href="<?php echo $this->url('general/view')?>">视图</a> 文件中添加如下代码：</p>
+<pre>
+echo $this->selfUrl();
+// <var>/helper/self-url</var>
+
+echo $this->selfUrl('id=2&type[]=test');
+echo $this->selfUrl([
+    'id' => 2,
+    'type[]' => 'test'
+]);
+// <var>/helper/self-url?id=2&type%5B%5D=test</var>
+</pre>

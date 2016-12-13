@@ -1,0 +1,12 @@
+<?php /* @var $this \App\Hint\HelperManager */ ?>
+<h1><?php echo $title?></h1>
+<p>调用其他控制器的方法，获取视图模型：</p>
+<code>
+$this-&gt;viewModel(<var>['pluginController',&nbsp;'viewAction']</var>);
+</code>
+<p>你可以通过第二个参数给方法传递变量：</p>
+<code>
+$this-&gt;viewModel(['pluginController',&nbsp;'viewAction'],&nbsp;<var>[<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'title'&nbsp;=&gt;&nbsp;'ViewModel&nbsp;Test',<br />
+]</var>);
+</code>

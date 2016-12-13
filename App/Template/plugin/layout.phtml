@@ -1,0 +1,77 @@
+<?php /* @var $this \App\Hint\HelperManager */ ?>
+<h1><?php echo $title?></h1>
+<p>很多时候，网页具有相同的布局：头部、尾部等；每个页面也可以有其独特的布局；通过此插件，可以很简便的操作布局。</p>
+<ul>
+    <li><a href="#how">如何给页面添加布局模板?</a></li>
+    <li><a href="#without">不需要公共布局</a></li>
+    <li><a href="#param">方法中，给布局模板传递变量</a></li>
+</ul>
+
+<a name="how"><h2>如何给页面添加布局模板?</h2></a>
+<p>我们可以在 <dfn>AbstractActionController.php</dfn> 中实现公用的布局，当然，每个页面也可以有特有的布局：</p>
+<code>
+//&nbsp;set&nbsp;default&nbsp;layout<br />
+$this-&gt;layout()<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;getModel()<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;addChild(new&nbsp;ViewModel('layout/includes/header'),&nbsp;'<var>__header</var>')<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;addChild(new&nbsp;ViewModel('layout/includes/footer'),&nbsp;'<var>__footer</var>');
+</code>
+<ul>
+    <li><dfn>$this-&gt;layout()</dfn> 定义布局模板，参数传递信息如下
+        <ul>
+            <li>字符串，指定布局模板。如 <var>layout/default</var> 指向 <samp>App/Template/layout/default.phtml</samp></li>
+            <li>数组，给默认布局模板 <dfn>Layout::LAYOUT_DEFAULT</dfn> 传递变量</li>
+            <li>ViewModel 视图模型，指定布局模板同时传递变量。如 <var>$this-&gt;layout(new&nbsp;ViewModel(['title'&nbsp;=&gt;&nbsp;'Layout'],&nbsp;'layout/default'))</var></li>
+        </ul>
+    </li>
+    <li><dfn>addChild()</dfn> 定义布局标识所替换的模板文件。上面的例子中 <var>layout/includes/header</var> 来替换布局模板里的变量 <samp>$__header</samp>
+        <ul>
+            <li>可以通过 layout 插件的 getModel() 方法进行定义。如 <var>$this->layout()->getModel()</var>->addChild()</li>
+            <li>也可以在 layout 插件初始化控制器 layout 属性后直接进行访问。如 <var>$this->layout</var>->addChild()</li>
+        </ul>
+    </li>
+</ul>
+
+<a name="without"><h2>不需要公共布局</h2></a>
+<p>有些时候，我们请求某个方法的时候需要特定的样式，不需要公共布局。如 ajax 请求：</p>
+<code>
+$this-&gt;layout(<var>false</var>);
+</code>
+
+<a name="param"><h2>方法中，给布局模板传递变量</h2></a>
+<p>我们先来看下例子中的公共布局模板：</p>
+<code>
+&lt;html&nbsp;xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&nbsp;xml:lang=&quot;utf-8&quot;&nbsp;lang=&quot;utf-8&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;head&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;meta&nbsp;http-equiv=&quot;Content-Type&quot;&nbsp;content=&quot;text/html;&nbsp;charset=utf-8&quot;&nbsp;/&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;meta&nbsp;name=&quot;viewport&quot;&nbsp;content=&quot;width=device-width,&nbsp;initial-scale=1,&nbsp;user-scalable=0&quot;&nbsp;/&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;MC&nbsp;用户手册&lt;/title&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;link&nbsp;rel=&quot;shortcut&nbsp;icon&quot;&nbsp;href=&quot;&lt;?php&nbsp;echo&nbsp;$this-&gt;image('favicon.ico')?&gt;&quot;&nbsp;type=&quot;image/x-icon&quot;&nbsp;/&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;?php&nbsp;echo&nbsp;$this-&gt;css('common.css')-&gt;wrap()?&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/head&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;body&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;?php&nbsp;echo&nbsp;<var>$__header</var>?&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&nbsp;id=&quot;content&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;?php&nbsp;echo&nbsp;<var>$__content</var>?&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;?php&nbsp;echo&nbsp;<var>$__footer</var>?&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/body&gt;<br />
+&lt;/html&gt;
+</code>
+<p>方法返回的数组数据，自动渲染对应的 <a href="<?php echo $this->url('general/view')?>">视图</a> 之后会默认替换 <samp>$__content</samp></p>
+<p>可以用下面的两种方式给 <dfn>App/Template/layout/default.phtml</dfn> 布局模板传递变量：</p>
+<code>
+$this-&gt;layout-&gt;setVariables([<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'title'&nbsp;=&gt;&nbsp;'ggg',<br />
+]);<br />
+<br />
+$this-&gt;layout-&gt;title&nbsp;=&nbsp;'ggg';
+</code>
+<p>想这样，给 <dfn>App/Template/layout/includes/header.phtml</dfn> 局部模板传递变量：</p>
+<code>
+$this-&gt;layout-&gt;<var>getChild('__header')</var>-&gt;setVariables([<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'title'&nbsp;=&gt;&nbsp;'ggg',<br />
+]);<br />
+<br />
+$this-&gt;layout-&gt;<var>getChild('__header')</var>-&gt;title&nbsp;=&nbsp;'ggg';
+</code>

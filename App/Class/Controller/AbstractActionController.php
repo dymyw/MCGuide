@@ -13,8 +13,8 @@ abstract class AbstractActionController extends ActionController
     public function init()
     {
         // set default layout
-        $this->layout();
-        $this->layout
+        $this->layout()
+                ->getModel()
                 ->addChild(new ViewModel('layout/includes/header'), '__header')
                 ->addChild(new ViewModel('layout/includes/footer'), '__footer');
     }

@@ -1,0 +1,11 @@
+<?php /* @var $this \App\Hint\HelperManager */ ?>
+<h1><?php echo $title?></h1>
+<p>MC 系统提供了一些常用的函数，在 <a href="<?php echo $this->url('general/controller')?>">控制器</a> 中可直接使用 <dfn>$this->func</dfn> 调用</p>
+
+<h2>saveLog($filename, $data, $override = false)</h2>
+<p>保存日志：</p>
+<pre>
+$this->func->saveLog(LOG_DIR . 'xxx.log', var_export([
+    'name' => 'dymyw',
+], true));
+</pre>

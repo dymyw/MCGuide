@@ -1,0 +1,27 @@
+<?php /* @var $this \App\Hint\HelperManager */ ?>
+<h1><?php echo $title?></h1>
+<p>从 MC 独有的 <a href="<?php echo $this->url('general/router')?>">URI 路由</a>规则中解析出传递的参数信息</p>
+
+<h2>param($name = null, $default = null)</h2>
+<p>获取某个参数的值：</p>
+<pre>
+// <var>/fashion-women-eyeglasses-width-140.html</var>
+print_r($this->param('attr', 'sorry')); // <samp>sorry</samp>
+print_r($this->param('attrs', 'sorry')); // <samp>Array ( [0] => fashion )</samp>
+</pre>
+
+<h2>param->has($key, $item = null)</h2>
+<p>是否存在某个参数：</p>
+<pre>
+// <var>/fashion-women-eyeglasses-width-140.html</var>
+echo $this->param->has('attr');
+echo $this->param->has('<var>attrs</var>'); // <samp>1</samp>
+echo $this->param->has('attrs', <var>0</var>); // <samp>1</samp>
+</pre>
+
+<h2>param->get($args)</h2>
+<p>通过多个键名来获取深层次的键值：</p>
+<pre>
+// <var>/fashion-women-eyeglasses-width-140.html</var>
+echo $this->param->get('attrs', 0); // <samp>fashion</samp>
+</pre>

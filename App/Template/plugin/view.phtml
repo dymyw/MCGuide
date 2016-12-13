@@ -1,0 +1,12 @@
+<?php /* @var $this \App\Hint\HelperManager */ ?>
+<h1><?php echo $title?></h1>
+<p>此插件主要是为了渲染视图模型</p>
+<p></p>
+
+<h2>view->render(ViewModelInterface $model)</h2>
+<p>获取变量渲染后的模板字符串：</p>
+<code>
+echo&nbsp;$this-&gt;view-&gt;render(new&nbsp;\Core\View\Model\ViewModel([<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'title'&nbsp;=&gt;&nbsp;'渲染模型'<br />
+],&nbsp;'layout/includes/footer'));
+</code>

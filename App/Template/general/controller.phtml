@@ -7,15 +7,13 @@
     <li><a href="#method">方法</a></li>
 </ul>
 
-<a name="what"></a>
-<h2>什么是控制器?</h2>
+<a name="what"><h2>什么是控制器?</h2></a>
 <p><dfn>简而言之，一个控制器就是一个类文件，是以一种能够和 URI 关联在一起的方式来命名的</dfn></p>
 <p>假设这个 URI：</p>
 <code>example.com/index.php/<var>my-test</var>/<var>say</var></code>
 <p>在上面的例子中，MC 将尝试寻找并调用一个名为 <samp>MyTestController</samp> 控制器中的 <samp>sayAction</samp> 方法</p>
 
-<a name="hello"></a>
-<h2>让我们试一试：Hello World!</h2>
+<a name="hello"><h2>让我们试一试：Hello World!</h2></a>
 <p>我们来创建一个简单的控制器，以便更直观地了解其工作原理。使用你的文本编辑器，创建一个名为 <dfn>MyTestController.php</dfn> 的文件，然后输入下列代码：</p>
 <code>
 &lt;?php<br />
@@ -36,8 +34,7 @@ class&nbsp;<var>MyTestController</var>&nbsp;extends&nbsp;AbstractActionControlle
 <p>如果你做的没错，你应该看到 <samp>Hello World!</samp></p>
 <p class="important">注意：类名和文件名同名，必须以大写字母开头，采用驼峰命名，后面紧跟 Controller。就像这样 <strong>MyTestController</strong></p>
 
-<a name="method"></a>
-<h2>方法</h2>
+<a name="method"><h2>方法</h2></a>
 <p><dfn>URI 的第二部分是用来决定调用控制器中哪个方法的</dfn></p>
 <p>我们再来试试，在你的控制器中加入一个新的方法：</p>
 <code>

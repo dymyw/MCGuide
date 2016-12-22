@@ -1,0 +1,50 @@
+<?php /* @var $this \App\Hint\HelperManager */ ?>
+<h1><?php echo $title?></h1>
+<p>顾名思义，这个是用来加载类文件的</p>
+<p class="important"><strong>提示：</strong> 这个类是系统初始化时在 <dfn>Www/init.inc.php</dfn> 中加载进来的，同时配置了自动加载的命名空间：</p>
+<code>
+use&nbsp;Core\Loader\AutoLoader;<br />
+<br />
+include_once&nbsp;CORE_DIR&nbsp;.&nbsp;'Loader'&nbsp;.&nbsp;DS&nbsp;.&nbsp;'AutoLoader.php';<br />
+AutoLoader::setNamespaces([<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'Core'&nbsp;&nbsp;=&gt;&nbsp;CORE_DIR,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'App'&nbsp;&nbsp;&nbsp;=&gt;&nbsp;APP_DIR&nbsp;.&nbsp;'Class'&nbsp;.&nbsp;DS,<br />
+]);<br />
+<var>AutoLoader::register();</var>
+</code>
+
+<h2>register()</h2>
+<p>注册自动加载函数：</p>
+<code>
+spl_autoload_register(['static',&nbsp;'load']);
+</code>
+
+<h2>load($className, $suffix = '.php')</h2>
+<p>加载一个类文件</p>
+<ul>
+    <li>
+        通过 <dfn>命名空间</dfn> 加载：
+        <code>
+        \Core\Loader\AutoLoader::load('<var>App</var>\Controller\MyTestController');<br />
+        \Core\Loader\AutoLoader::load('<var>App</var>_Controller_MyTestController');<br />
+        </code>
+        <p>加载的类文件：<samp>/App/Class/</samp>Controller/MyTestController.php</p>
+    </li>
+
+    <li>
+        通过 <dfn>路径</dfn> 加载。遍历命名空间，加载存在的类文件：
+        <code>
+        \Core\Loader\AutoLoader::load('Controller\MyTestController');<br />
+        \Core\Loader\AutoLoader::load('Controller_MyTestController');
+        </code>
+        <p>加载的类文件：<samp>/App/Class/</samp>Controller/MyTestController.php 或 <samp>CORE_DIR</samp>/Controller/MyTestController.php</p>
+    </li>
+</ul>
+
+<h2>find($baseName, $suffix = '.php')</h2>
+<p>查找类文件，存在则返回其 <dfn>包含命名空间的类名</dfn>：</p>
+<code>
+echo&nbsp;\Core\Loader\AutoLoader::find('Controller\MyTestController');<br />
+echo&nbsp;\Core\Loader\AutoLoader::find('Controller_MyTestController');
+</code>
+<p>返回：<samp>App/</samp>Controller/MyTestController.php 或 <samp>Core/</samp>Controller/MyTestController.php</p>

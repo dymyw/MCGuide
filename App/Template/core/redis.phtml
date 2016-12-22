@@ -1,0 +1,22 @@
+<?php /* @var $this \App\Hint\HelperManager */ ?>
+<h1><?php echo $title?></h1>
+<p>Redis 缓存的实现</p>
+
+<h2>资源配置</h2>
+<p>在使用之前，我们首先需要手动配置 redis 服务器信息</p>
+<p>一般，我们都在私有配置文件 <dfn>App/Config/Config.private.php</dfn> 里面进行配置：</p>
+<code>
+!defined('REDIS_ENABLED')&nbsp;&amp;&amp;&nbsp;define('REDIS_ENABLED',&nbsp;true);<br />
+!defined('REDIS_HOST')&nbsp;&amp;&amp;&nbsp;define('REDIS_HOST',&nbsp;'localhost');<br />
+!defined('REDIS_PORT')&nbsp;&amp;&amp;&nbsp;define('REDIS_PORT',&nbsp;6379);<br />
+!defined('REDIS_AUTH')&nbsp;&amp;&amp;&nbsp;define('REDIS_AUTH',&nbsp;'***');
+</code>
+<p>如果 redis 服务需要密码认证，配置 <samp>REDIS_AUTH</samp> 信息</p>
+
+<h2>数据的保存和读取</h2>
+<code>
+$cache&nbsp;=&nbsp;$this-&gt;locator-&gt;get('<var>Core\Cache\Redis</var>');<br />
+$data&nbsp;=&nbsp;$cache-&gt;get('tttt',&nbsp;function()&nbsp;{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;'dymyw';<br />
+},&nbsp;10);
+</code>

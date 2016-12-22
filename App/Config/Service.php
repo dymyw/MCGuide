@@ -2,6 +2,7 @@
 
 return [
     'services' => [
+        'author' => 'dymyw',
     ],
 
     'invokables' => [

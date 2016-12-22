@@ -1,0 +1,45 @@
+<?php /* @var $this \App\Hint\HelperManager */ ?>
+<h1><?php echo $title?></h1>
+<p>服务定位器模式，通过服务的注册来提供全局的调用。一般，我们都在服务配置文件 <dfn>App/Config/Service.php</dfn> 里面进行配置：</p>
+<code>
+&lt;?php<br />
+<br />
+return&nbsp;[<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'<var>services</var>'&nbsp;=&gt;&nbsp;[<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'author'&nbsp;=&gt;&nbsp;'dymyw',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;],<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'<var>invokables</var>'&nbsp;=&gt;&nbsp;[<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;callback&nbsp;function<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'db'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt;&nbsp;['App\ServiceLocator\Invokable',&nbsp;'getDbInstance'],<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'params'&nbsp;&nbsp;&nbsp;&nbsp;=&gt;&nbsp;['App\ServiceLocator\Invokable',&nbsp;'getParams'],<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'redis'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt;&nbsp;['App\ServiceLocator\Invokable',&nbsp;'getRedisInstance'],<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;invokable&nbsp;class<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'frontController'&nbsp;&nbsp;&nbsp;=&gt;&nbsp;'Core\Controller\FrontController',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;],<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'aliases'&nbsp;=&gt;&nbsp;[<br />
+&nbsp;&nbsp;&nbsp;&nbsp;],<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'parameters'&nbsp;=&gt;&nbsp;[<br />
+&nbsp;&nbsp;&nbsp;&nbsp;],<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'readonly'&nbsp;=&gt;&nbsp;[<br />
+&nbsp;&nbsp;&nbsp;&nbsp;],<br />
+];
+</code>
+<p>一般在 <samp>services</samp> 中定义全局变量、在 <samp>invokables</samp> 中定义全局回调函数提供服务</p>
+
+<h2>获取服务</h2>
+<code>
+$locator-&gt;<var>author</var><br />
+<br />
+$locator-&gt;<var>db</var><br />
+$locator-&gt;get('<var>params</var>')
+</code>
+
+<h2>注册服务</h2>
+<code>
+$locator-&gt;setService('<var>router</var>',&nbsp;<dfn>$router</dfn>);
+</code>

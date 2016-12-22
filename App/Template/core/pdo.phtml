@@ -1,0 +1,163 @@
+<?php /* @var $this \App\Hint\HelperManager */ ?>
+<h1><?php echo $title?></h1>
+<p>继承 \PDO 类，同时扩展了一些功能</p>
+
+<h2>exec($sql)</h2>
+<p>执行 sql 语句，返回影响的行数：</p>
+<code>
+$sql&nbsp;=&nbsp;&quot;UPDATE&nbsp;t_product<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SET&nbsp;online&nbsp;=&nbsp;0<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;id&nbsp;=&nbsp;12&quot;;<br />
+echo&nbsp;$this-&gt;locator-&gt;db-&gt;exec($sql);
+</code>
+<p>结果：<samp>1</samp></p>
+
+<h2>getOne($sql)</h2>
+<p>获取一个值：</p>
+<code>
+$sql&nbsp;=&nbsp;&quot;SELECT&nbsp;<var>COUNT(*)</var><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;t_product<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;online&nbsp;=&nbsp;1&quot;;<br />
+echo&nbsp;$this-&gt;locator-&gt;db-&gt;getOne($sql);
+</code>
+<p>结果：<samp>683</samp></p>
+<p>参数可以这么传，同样也适用于 <dfn>exec()、getRow()、getAll()、getPairs()、getColumn()</dfn>：</p>
+<code>
+echo&nbsp;$this-&gt;locator-&gt;db-&gt;getOne(&quot;SELECT&nbsp;COUNT(*)&nbsp;FROM&nbsp;t_product&nbsp;WHERE&nbsp;online&nbsp;=&nbsp;<var>?</var>&quot;,&nbsp;<var>1</var>);<br />
+echo&nbsp;$this-&gt;locator-&gt;db-&gt;getOne(&quot;SELECT&nbsp;COUNT(*)&nbsp;FROM&nbsp;t_product&nbsp;WHERE&nbsp;online&nbsp;=&nbsp;<var>?</var>&quot;,&nbsp;<var>[1]</var>);<br />
+echo&nbsp;$this-&gt;locator-&gt;db-&gt;getOne(&quot;SELECT&nbsp;COUNT(*)&nbsp;FROM&nbsp;t_product&nbsp;WHERE&nbsp;online&nbsp;=&nbsp;<var>:online</var>&quot;,&nbsp;<var>['online'&nbsp;=&gt;&nbsp;1]</var>);
+</code>
+
+<h2>getRow($sql)</h2>
+<p>获取一行：</p>
+<code>
+$sql&nbsp;=&nbsp;&quot;SELECT&nbsp;id,&nbsp;product_name,&nbsp;product_desc<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;t_product<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;online&nbsp;=&nbsp;:online<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;id&nbsp;=&nbsp;:id&quot;;<br />
+$row&nbsp;=&nbsp;$this-&gt;locator-&gt;db-&gt;getRow($sql,&nbsp;[<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'online'&nbsp;=&gt;&nbsp;1,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'id'&nbsp;=&gt;&nbsp;63,<br />
+]);
+</code>
+<code>
+<samp>Array<br />
+(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;[id]&nbsp;=&gt;&nbsp;63<br />
+&nbsp;&nbsp;&nbsp;&nbsp;[product_name]&nbsp;=&gt;&nbsp;台湾杨桃<br />
+&nbsp;&nbsp;&nbsp;&nbsp;[product_desc]&nbsp;=&gt;&nbsp;听说吃杨桃和梅粉更配哦<br />
+)</samp>
+</code>
+
+<h2>getAll($sql)</h2>
+<p>获取数据集：</p>
+<code>
+$sql&nbsp;=&nbsp;&quot;SELECT&nbsp;id,&nbsp;product_name,&nbsp;product_desc<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;t_product<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;online&nbsp;=&nbsp;:online<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIMIT&nbsp;5&quot;;<br />
+$all&nbsp;=&nbsp;$this-&gt;locator-&gt;db-&gt;getAll($sql,&nbsp;[<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'online'&nbsp;=&gt;&nbsp;1,<br />
+]);
+</code>
+<code>
+<samp>Array<br />
+(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;[0]&nbsp;=&gt;&nbsp;Array<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[id]&nbsp;=&gt;&nbsp;33<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[product_name]&nbsp;=&gt;&nbsp;真心祝福水果礼篮<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[product_desc]&nbsp;=&gt;&nbsp;淡淡的祝福&nbsp;深深的情意<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;[1]&nbsp;=&gt;&nbsp;Array<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[id]&nbsp;=&gt;&nbsp;63<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[product_name]&nbsp;=&gt;&nbsp;台湾杨桃<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[product_desc]&nbsp;=&gt;&nbsp;听说吃杨桃和梅粉更配哦<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;[2]&nbsp;=&gt;&nbsp;Array<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[id]&nbsp;=&gt;&nbsp;256<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[product_name]&nbsp;=&gt;&nbsp;情真意切礼篮提货券<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[product_desc]&nbsp;=&gt;&nbsp;情真意切&nbsp;新鲜健康<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;[3]&nbsp;=&gt;&nbsp;Array<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[id]&nbsp;=&gt;&nbsp;368<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[product_name]&nbsp;=&gt;&nbsp;喜悦礼篮提货券<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[product_desc]&nbsp;=&gt;&nbsp;新鲜水果带给你喜悦幸福<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;[4]&nbsp;=&gt;&nbsp;Array<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[id]&nbsp;=&gt;&nbsp;635<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[product_name]&nbsp;=&gt;&nbsp;欢乐时光水果礼篮<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[product_desc]&nbsp;=&gt;&nbsp;幸福的记忆<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br />
+<br />
+)</samp>
+</code>
+
+<h2>getPairs($sql)</h2>
+<p>获取键值对数组：</p>
+<code>
+$sql&nbsp;=&nbsp;&quot;SELECT&nbsp;<var>id,&nbsp;product_name</var>,&nbsp;product_desc<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;t_product<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;online&nbsp;=&nbsp;:online<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIMIT&nbsp;5&quot;;<br />
+$pairs&nbsp;=&nbsp;$this-&gt;locator-&gt;db-&gt;getPairs($sql,&nbsp;[<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'online'&nbsp;=&gt;&nbsp;1,<br />
+]);
+</code>
+<code>
+<samp>Array<br />
+(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;[33]&nbsp;=&gt;&nbsp;真心祝福水果礼篮<br />
+&nbsp;&nbsp;&nbsp;&nbsp;[63]&nbsp;=&gt;&nbsp;台湾杨桃<br />
+&nbsp;&nbsp;&nbsp;&nbsp;[256]&nbsp;=&gt;&nbsp;情真意切礼篮提货券<br />
+&nbsp;&nbsp;&nbsp;&nbsp;[368]&nbsp;=&gt;&nbsp;喜悦礼篮提货券<br />
+&nbsp;&nbsp;&nbsp;&nbsp;[635]&nbsp;=&gt;&nbsp;欢乐时光水果礼篮<br />
+)</samp>
+</code>
+
+<h2>getColumn($sql)</h2>
+<p>获取一列：</p>
+<code>
+$sql&nbsp;=&nbsp;&quot;SELECT&nbsp;<var>id</var>,&nbsp;product_name,&nbsp;product_desc<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;t_product<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;online&nbsp;=&nbsp;:online<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIMIT&nbsp;5&quot;;<br />
+$column&nbsp;=&nbsp;$this-&gt;locator-&gt;db-&gt;getColumn($sql,&nbsp;[<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'online'&nbsp;=&gt;&nbsp;1,<br />
+]);
+</code>
+<code>
+<samp>Array<br />
+(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;[0]&nbsp;=&gt;&nbsp;33<br />
+&nbsp;&nbsp;&nbsp;&nbsp;[1]&nbsp;=&gt;&nbsp;63<br />
+&nbsp;&nbsp;&nbsp;&nbsp;[2]&nbsp;=&gt;&nbsp;256<br />
+&nbsp;&nbsp;&nbsp;&nbsp;[3]&nbsp;=&gt;&nbsp;368<br />
+&nbsp;&nbsp;&nbsp;&nbsp;[4]&nbsp;=&gt;&nbsp;635<br />
+)</samp>
+</code>
+
+<h2>getLastSql()</h2>
+<p>获取最后一条 SQL 信息：</p>
+<code>
+$this-&gt;locator-&gt;db-&gt;getLastSql();
+</code>
+<code>
+<samp>Array<br />
+(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;[sql]&nbsp;=&gt;&nbsp;SELECT&nbsp;id,&nbsp;product_name,&nbsp;product_desc&nbsp;FROM&nbsp;t_product&nbsp;WHERE&nbsp;online&nbsp;=&nbsp;:online&nbsp;LIMIT&nbsp;5<br />
+&nbsp;&nbsp;&nbsp;&nbsp;[params]&nbsp;=&gt;&nbsp;Array<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[online]&nbsp;=&gt;&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br />
+<br />
+)</samp>
+</code>

@@ -63,6 +63,8 @@ class MyTestController extends AbstractActionController
 
     public function htmlAction()
     {
-        echo nl2br(str_replace(' ', '&nbsp;', htmlspecialchars('$router->setRouteMode(Router::ROUTE_MODE_PATHINFO);', ENT_COMPAT | ENT_XHTML)));
+        $code = <<<code
+code;
+        echo nl2br(str_replace(' ', '&nbsp;', htmlspecialchars($code, ENT_COMPAT | ENT_XHTML)));
     }
 }

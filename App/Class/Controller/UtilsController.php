@@ -18,10 +18,10 @@ class UtilsController extends AbstractActionController
         ];
     }
 
-    public function stringAction()
+    public function strAction()
     {
         return [
-            'title' => 'String',
+            'title' => 'Str',
         ];
     }
 

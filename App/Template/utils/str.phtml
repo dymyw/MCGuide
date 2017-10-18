@@ -4,11 +4,11 @@
 
 <h2>载入字符串工具</h2>
 <p>通过 <a href="<?php echo $this->url('core/autoloader')?>">自动加载类</a> 载入字符串工具：</p>
-<code>use Core\Utils\String;</code>
+<code>use Core\Utils\Str;</code>
 
 <h2>concat($str, $seperator = ' ')</h2>
 <p>连接字符串：</p>
 <code>
-    $url .= String::concat($query, '?'); // <var>$url<samp>?</samp>$query</var><br />
-    $sql .= String::concat('LIMIT 0, 1'); // <var>$sql LIMIT 0, 1</var>
+    $url .= Str::concat($query, '?'); // <var>$url<samp>?</samp>$query</var><br />
+    $sql .= Str::concat('LIMIT 0, 1'); // <var>$sql LIMIT 0, 1</var>
 </code>
